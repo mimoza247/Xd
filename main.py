@@ -558,15 +558,20 @@ senders = {
 
 # Функция определения SMTP-сервера
 def get_smtp_server(email):
-    if "@rambler.ru" in email:
-        return "smtp.rambler.ru", 587
-    elif "@gmail.com" in email:
-        return "smtp.gmail.com", 587
-    elif "@mail.ru" in email:
-        return "smtp.mail.ru", 587
-    elif "@yahoo.com" in email:
-        return "smtp.mail.yahoo.com", 587
-    return None, None
+    if 'gmail.com' in sender_email:
+            smtp_server = 'smtp.gmail.com'
+            smtp_port = 587
+        elif 'rambler.ru' in sender_email:
+            smtp_server = 'smtp.rambler.ru'
+            smtp_port = 587
+        elif 'hotmail.com' in sender_email:
+            smtp_server = 'smtp.office365.com'
+            smtp_port = 587
+        elif 'mail.ru' in sender_email:
+            smtp_server = 'smtp.mail.ru'
+            smtp_port = 587
+        else:
+            raise ValueError("Unsupported email provider")
 
 # Функция отправки email
 def send_email(sender_email, sender_password, receiver_email, subject, body):

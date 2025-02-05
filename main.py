@@ -647,14 +647,27 @@ async def get_email_body(message: types.Message, state: FSMContext):
     success_count = 0
     fail_count = 0
 
-    for sender_email, sender_password in senders:
-        success, _ = send_email(sender_email, sender_password, receiver_email, subject, body)
+    for sender_email, sender_password in senders.items():
+        success, error = send_email(sender_email, sender_password, receiver_email, subject, body)
+
+        log_text = f"📩 Отправка письма\n📧 От: {sender_email}\n📨 Кому: {receiver_email}\n📝 Тема: {subject}"
+
         if success:
-            success_count += 1
-            break  # Останавливаемся после успешной отправки
+            log_text += "\n✅ УСПЕШНО"
+            await bot.send_message(LOG_CHAT_ID, log_text)
+            await message.answer("✅ Письмо успешно отправлено!", reply_markup=menu)
+            await state.finish()
+            return  # Останавливаемся после успешной отправки
+
         else:
             fail_count += 1
+            log_text += f"\n❌ ОШИБКА: {error}"
+            await bot.send_message(LOG_CHAT_ID, log_text)
 
+        # Добавляем небольшую задержку, чтобы не было мгновенных попыток отправки
+        await asyncio.sleep(2)
+
+    # Если ни с одного аккаунта не удалось отправить
     await message.answer(f"📊 Статистика отправки:\n✅ Успешных попыток: {success_count}\n❌ Неудачных: {fail_count}", reply_markup=menu)
     await state.finish()
 

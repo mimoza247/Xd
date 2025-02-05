@@ -11,4 +11,4 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Запускаем бота
-CMD ["python", "snosbot01.py"]
+CMD ["python", "main.py"]

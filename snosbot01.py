@@ -554,7 +554,6 @@ senders = {
            'dmitrijmironovlaf9788@rambler.ru': 'Whitedeborah816',
            'vanjakulikovdpf6394@rambler.ru': 'Allencarol017',
            'andrejmaksimovwjw5202@rambler.ru': 'Cartersusan436',
-           'zhenjaafanasevomj
 }
 
 # Функция определения SMTP-сервера
